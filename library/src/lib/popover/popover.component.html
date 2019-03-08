@@ -40,7 +40,8 @@
 
 <ng-template #popoverBodyTpl>
     <div #popoverBodyContent [attr.aria-hidden]="disabled ? true : !isOpen"
-         style="background: white;" class="fd-popover__body fd-popover__body--no-arrow">
+         style="background: white;" class="fd-popover__body fd-popover__body--no-arrow" [ngClass]="{'fd-popover__body--no-margin': !arrow || isDropdown}">
+        <div *ngIf="arrow && !isDropdown" class="fd-popover__arrow" x-arrow></div>
         <ng-content select="fd-popover-body"></ng-content>
     </div>
 </ng-template>

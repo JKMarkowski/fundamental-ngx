@@ -10,7 +10,7 @@ import {
     ViewChild,
     AfterViewInit,
     ChangeDetectorRef,
-    AfterViewChecked
+    AfterViewChecked, OnChanges, SimpleChanges
 } from '@angular/core';
 import { HashService } from '../utils/hash.service';
 
@@ -21,7 +21,7 @@ import Popper from 'popper.js';
     templateUrl: './popover.component.html',
     styleUrls: ['./popover.component.scss']
 })
-export class PopoverComponent implements OnInit, AfterViewInit, AfterViewChecked {
+export class PopoverComponent implements OnInit, AfterViewInit, AfterViewChecked, OnChanges {
     @Input()
     placement: Popper.Placement = 'bottom-start';
     @Input()
@@ -29,9 +29,9 @@ export class PopoverComponent implements OnInit, AfterViewInit, AfterViewChecked
     @Input()
     eventsEnabled: boolean = true;
     @Input()
-    modifiers: Popper.Modifiers;
+    modifiers: Popper.Modifiers = {};
 
-    @Input()
+    @Input() // TODO: deprecated, leaving for backwards compatibility
     alignment: string = '';
     @Input()
     arrow: boolean = true;
@@ -97,8 +97,10 @@ export class PopoverComponent implements OnInit, AfterViewInit, AfterViewChecked
                 eventsEnabled: this.eventsEnabled,
                 modifiers: this.modifiers
             };
-            if (this.alignment === 'right') {
-                popoverOptions.placement = 'bottom-end';
+            if (this.arrow && !this.isDropdown) {
+                popoverOptions.modifiers.arrow = {
+                    element: this.popoverBodyContent.nativeElement.querySelector('.fd-popover__arrow')
+                }
             }
             this.popper = new Popper(
                 this.getPopoverControl(),
@@ -178,6 +180,15 @@ export class PopoverComponent implements OnInit, AfterViewInit, AfterViewChecked
 
     ngOnInit() {
         this.id = this.hasher.hash();
+    }
+
+    ngOnChanges(changes: SimpleChanges) {
+        if (changes.placement && !changes.placement.firstChange ||
+            changes.positionFixed && !changes.positionFixed.firstChange ||
+            changes.eventsEnabled && !changes.eventsEnabled.firstChange) {
+            this.close();
+            this.open();
+        }
     }
 
     ngAfterViewInit() {
