@@ -12,6 +12,8 @@ $arrow-width-half: $arrow-width/2;
     }
 
     &[x-placement^="top"] {
+        transition: top .125s, bottom .125s;
+
         margin-bottom: $arrow-height;
 
         .fd-popover__arrow {
@@ -52,6 +54,8 @@ $arrow-width-half: $arrow-width/2;
     }
 
     &[x-placement^="left"] {
+        transition: top .125s, bottom .125s;
+        
         margin-right: $arrow-height;
 
         .fd-popover__arrow {
