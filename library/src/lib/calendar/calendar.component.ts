@@ -552,7 +552,10 @@ export class CalendarComponent implements OnInit, OnDestroy, AfterViewChecked, C
         this.year = this.date.getFullYear();
     }
 
-    selectMonth(selectedMonth) {
+    selectMonth(selectedMonth, event?) {
+        if (event) {
+            event.stopPropagation();
+        }
         this.selectedMonth = selectedMonth;
         this.setCurrentMonth(selectedMonth);
         this.constructCalendar();
@@ -564,7 +567,10 @@ export class CalendarComponent implements OnInit, OnDestroy, AfterViewChecked, C
         this.year = this.date.getFullYear();
     }
 
-    selectYear(selectedYear) {
+    selectYear(selectedYear, event?) {
+        if (event) {
+            event.stopPropagation();
+        }
         this.selectedMonth = this.month;
         this.setCurrentYear(selectedYear);
         this.constructCalendar();
