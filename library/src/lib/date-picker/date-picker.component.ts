@@ -145,7 +145,22 @@ export class DatePickerComponent implements OnInit, ControlValueAccessor {
     }
 
     getInputValue(e) {
-        this.dateFromDatePicker.next(e);
+        if (e === '') {
+            if (this.type === 'single') {
+                this.selectedDay.date = null;
+                this.selectedDay.selected = null;
+                this.selectedDayChange.emit(this.selectedDay);
+                this.onChange({date: this.selectedDay.date});
+            } else {
+                this.selectedRangeFirst.date = null;
+                this.selectedRangeLast.selected = null;
+                this.selectedRangeFirstChange.emit(this.selectedRangeFirst);
+                this.selectedRangeLastChange.emit(this.selectedRangeLast);
+                this.onChange({date: this.selectedRangeFirst.date, rangeEnd: this.selectedRangeLast.date});
+            }
+        } else {
+            this.dateFromDatePicker.next(e);
+        }
     }
 
     @HostListener('document:keydown.escape', [])
@@ -183,7 +198,11 @@ export class DatePickerComponent implements OnInit, ControlValueAccessor {
         }
         if (this.type.toLocaleLowerCase() === 'single') {
             this.selectedDay.date = selected.date;
-            this.inputFieldDate = selected.date.toLocaleDateString();
+            if (selected.date !== null) {
+                this.inputFieldDate = selected.date.toLocaleDateString();
+            } else {
+                this.inputFieldDate = '';
+            }
         } else {
             this.selectedRangeFirst.date = selected.date;
             this.selectedRangeLast.date = selected.rangeEnd;
