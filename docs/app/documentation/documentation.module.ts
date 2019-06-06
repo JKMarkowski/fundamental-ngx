@@ -315,6 +315,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { DatetimePickerAllowNullExampleComponent } from './component-docs/datetime-picker/examples/datetime-allow-null-example/datetime-allow-null-example.component';
 import { DatePickerAllowNullExampleComponent } from './component-docs/date-picker/examples/date-picker-allow-null-example.component';
 import { TimeFormExampleComponent } from './component-docs/time/examples/time-form-example.component';
+import { SortPipe } from './core-helpers/pipes/sort.pipe';
 
 export function highlightJsFactory() {
     return hljs;
@@ -573,7 +574,8 @@ export function highlightJsFactory() {
         CalendarI18nExampleComponent,
         DatePickerI18nExampleComponent,
         DatePickerFormatExampleComponent,
-        SearchPipe
+        SearchPipe,
+        SortPipe
     ],
     entryComponents: [ModalContentComponent, ModalInModalComponent, ModalInModalSecondComponent, AlertContentComponent],
     imports: [

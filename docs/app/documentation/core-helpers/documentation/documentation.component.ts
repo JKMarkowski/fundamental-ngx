@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -6,8 +6,10 @@ import { Router } from '@angular/router';
     styleUrls: ['./documentation.component.scss'],
     templateUrl: './documentation.component.html'
 })
-export class DocumentationComponent implements OnInit {
+export class DocumentationComponent {
     @ViewChild('content') contentElRef: ElementRef;
+
+    categories = [];
 
     guides = [
         { url: 'home', name: 'Home' },
@@ -31,8 +33,8 @@ export class DocumentationComponent implements OnInit {
         { url: 'identifier', name: 'Identifier' },
         { url: 'image', name: 'Image' },
         { url: 'inlineHelp', name: 'Inline Help' },
-        { url: 'inputGroup', name: 'Input Group' },
         { url: 'list', name: 'List' },
+        { url: 'inputGroup', name: 'Input Group' },
         { url: 'loadingSpinner', name: 'Loading Spinner' },
         { url: 'menu', name: 'Menu' },
         { url: 'modal', name: 'Modal' },
@@ -67,20 +69,12 @@ export class DocumentationComponent implements OnInit {
     sideCollapsed: boolean = window.innerWidth < 576;
 
     constructor(private router: Router) {
-    }
-
-    ngOnInit() {
-        // sort the list alphabetically
-        this.components.sort((el1, el2) => {
-            if (el1.name < el2.name) {
-                return -1;
-            }
-
-            if (el1.name > el2.name) {
-                return 1;
-            }
-            return 0;
-        });
+        this.categories = [
+            {key: 'Getting Started', list: this.guides},
+            {key: 'Components', list: this.components},
+            {key: 'Layouts', list: this.layouts},
+            {key: 'Utilities', list: this.utilities},
+        ]
     }
 
     selectComponent(component) {
