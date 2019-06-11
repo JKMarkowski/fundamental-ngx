@@ -23,6 +23,7 @@ describe('TimePickerComponent', () => {
     beforeEach(() => {
         fixture = TestBed.createComponent(TimePickerComponent);
         component = fixture.componentInstance;
+        component.timeAdapter.rangeDelimiter = ':';
         fixture.detectChanges();
     });
 
@@ -167,7 +168,6 @@ describe('TimePickerComponent', () => {
         component.timeInputChanged('12:59 am');
         expect(component.time.hour).toBe(0);
         expect(component.time.minute).toBe(59);
-        expect(component.time.second).toBe(0);
     });
 
     it('should handle regexp fail for meridian clock', () => {
@@ -244,4 +244,14 @@ describe('TimePickerComponent', () => {
         component.timeFromTimeComponentChanged();
         expect(component.onChange).toHaveBeenCalledWith(component.time);
     });
+
+    it('should get formatted time with other delimiter', () => {
+        const newDelimiter = '-';
+        component.timeAdapter.rangeDelimiter = newDelimiter;
+        const newTime: TimeObject = { hour: 0, minute: 10, second: 11 };
+        component.time = newTime;
+        component.meridian = true;
+        const retVal = component.getFormattedTime();
+        expect(retVal).toBe('12' + newDelimiter + '10' + newDelimiter + '11 am');
+    })
 });
