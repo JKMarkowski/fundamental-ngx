@@ -117,9 +117,8 @@ export class TimePickerComponent implements ControlValueAccessor, OnInit {
         if (time) {
             this.isInvalidTimeInput = false;
             this.child.setDisplayedHour();
+            this.time = Object.assign(this.time, time);
             this.onChange(time);
-            console.log(time);
-            return;
         } else {
             if (this.allowNull && timeFromInput === '') {
                 this.isInvalidTimeInput = false;
@@ -128,7 +127,6 @@ export class TimePickerComponent implements ControlValueAccessor, OnInit {
             } else {
                 this.isInvalidTimeInput = true;
             }
-            return;
         }
     }
 
