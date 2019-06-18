@@ -20,14 +20,6 @@ let tabPanelUniqueId: number = 0;
 })
 export class TabPanelComponent {
 
-    /** @hidden */
-    @ContentChild(TabTitleDirective, {read: TemplateRef})
-    titleTemplate: TemplateRef<any>;
-
-    /** The title of the tab header. */
-    @Input()
-    title: string;
-
     /** Aria-label of the tab. Also applied to the tab header. */
     @Input()
     ariaLabel: string;

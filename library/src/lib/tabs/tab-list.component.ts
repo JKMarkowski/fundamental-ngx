@@ -13,8 +13,8 @@ import {
     ViewChildren,
     ViewEncapsulation
 } from '@angular/core';
-import { TabPanelComponent } from './tab/tab-panel.component';
 import { Subscription } from 'rxjs';
+import { TabItemComponent } from './tab-item/tab-item.component';
 
 /**
  * Represents a list of tab-panels.
@@ -24,19 +24,20 @@ import { Subscription } from 'rxjs';
     templateUrl: './tab-list.component.html',
     styleUrls: ['./tab-list.component.scss'],
     host: {
-        class: 'fd-tabs-custom'
+        class: 'fd-tabs',
+        role: 'tablist'
     },
     encapsulation: ViewEncapsulation.None
 })
 export class TabListComponent implements AfterContentInit, OnChanges, OnDestroy {
 
     /** @hidden */
-    @ContentChildren(TabPanelComponent)
-    tabs: QueryList<TabPanelComponent>;
+    @ContentChildren(TabItemComponent)
+    tabs: QueryList<TabItemComponent>;
+    actualContent;
 
     /** @hidden */
-    @ViewChildren('tabLink')
-    tabLinks: QueryList<ElementRef>;
+    @ViewChildren('tabLink') tabLinks: QueryList<ElementRef>;
 
     /** Index of the selected tab panel. */
     @Input()
@@ -47,6 +48,7 @@ export class TabListComponent implements AfterContentInit, OnChanges, OnDestroy 
     selectedIndexChange = new EventEmitter<number>();
 
     private _tabsSubscription: Subscription;
+    private _tabsClickSubscription: Subscription[];
 
     /** @hidden */
     ngAfterContentInit(): void {
@@ -58,7 +60,11 @@ export class TabListComponent implements AfterContentInit, OnChanges, OnDestroy 
             if (!this.isIndexInRange() || this.isTabContentEmpty()) {
                 this.resetTabHook();
             }
+
+            this.actualContent = this.tabs.find(tab => tab.expanded) && this.tabs.find(tab => tab.expanded).content;
         });
+
+        this._tabsClickSubscription = this.tabs.map((tab, index) => tab.tabLink.clicked.subscribe(() => this.tabHeaderClickHandler(index)));
     }
 
     /** @hidden */
@@ -82,7 +88,7 @@ export class TabListComponent implements AfterContentInit, OnChanges, OnDestroy 
     selectTab(tabIndex: number): void {
         if (this.isIndexInRange() && this.isTargetTabEnabled(tabIndex)) {
             this.tabs.forEach((tab, index) => {
-                tab.expanded = index === tabIndex;
+                tab.activateChange(index === tabIndex);
             });
             this.selectedIndex = tabIndex;
             this.selectedIndexChange.emit(tabIndex);
