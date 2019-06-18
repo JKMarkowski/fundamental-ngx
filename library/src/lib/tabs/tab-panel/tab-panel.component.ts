@@ -7,7 +7,7 @@ let tabPanelUniqueId: number = 0;
  * Represents the body of a tab element. It also contains elements pertaining to the associated tab header.
  */
 @Component({
-    selector: 'fd-tab',
+    selector: 'fd-tab-panel',
     templateUrl: './tab-panel.component.html',
     host: {
         role: 'tabpanel',

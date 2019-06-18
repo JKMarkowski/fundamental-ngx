@@ -2,24 +2,25 @@ import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core
 import { Component } from '@angular/core';
 
 import { TabListComponent } from './tab-list.component';
-import { TabsModule } from './tabs.module';
+import { TabsModule } from '../tabs.module';
 
 @Component({
     selector: 'fd-test-tabs',
-    template: `<fd-tab-list>
-    <fd-tab [title]="'Link'" id="tab1">
-      Content Link
-    </fd-tab>
-    <fd-tab [title]="'Selected'" [disabled]="false" id="tab2">
-      Content Selected
-    </fd-tab>
-    <fd-tab [title]="'Link'" [disabled]="false" id="tab3">
-      Content Link Two
-    </fd-tab>
-    <fd-tab [title]="'Disabled'" [disabled]="true" id="tab4">
-      Disabled
-    </fd-tab>
-  </fd-tab-list>`
+    template: `
+        <fd-tab-list>
+            <fd-tab-panel [title]="'Link'" id="tab1">
+                Content Link
+            </fd-tab-panel>
+            <fd-tab-panel [title]="'Selected'" [disabled]="false" id="tab2">
+                Content Selected
+            </fd-tab-panel>
+            <fd-tab-panel [title]="'Link'" [disabled]="false" id="tab3">
+                Content Link Two
+            </fd-tab-panel>
+            <fd-tab-panel [title]="'Disabled'" [disabled]="true" id="tab4">
+                Disabled
+            </fd-tab-panel>
+        </fd-tab-list>`
 })
 class TestWrapperComponent {}
 

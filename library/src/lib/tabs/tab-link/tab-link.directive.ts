@@ -39,9 +39,13 @@ export class TabLinkDirective extends AbstractFdNgxClass {
         this.clicked.emit();
     }
 
-    @HostListener('keypress')
+    @HostListener('keydown', ['$event'])
     keyPressLink(event: any) {
         this.keyPressed.emit(event);
+    }
+
+    public focus() {
+        this.elementRef && this.elementRef.nativeElement.focus();
     }
 
     @HostBinding('attr.aria-selected') selected: boolean = this.active;

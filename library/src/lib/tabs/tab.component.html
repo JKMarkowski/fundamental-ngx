@@ -1,0 +1,8 @@
+<ng-content select="[fd-tab-list]"></ng-content>
+<ng-container *ngFor="let tab of tabListComponent?.tabLinks; index as index">
+    <fd-tab-panel>
+        <ng-container *ngIf="tab.tabContent && index === tabListComponent?.selectedIndex">
+            <ng-container [fd-tab-load-title]="tab.tabContent"></ng-container>
+        </ng-container>
+    </fd-tab-panel>
+</ng-container>

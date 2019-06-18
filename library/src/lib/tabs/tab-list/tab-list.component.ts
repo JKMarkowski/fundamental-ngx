@@ -1,7 +1,7 @@
 import {
     AfterContentInit,
     Component,
-    ContentChildren,
+    ContentChildren, Directive, ElementRef,
     EventEmitter,
     Input,
     OnChanges,
@@ -12,20 +12,19 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { TabItemComponent } from './tab-item/tab-item.component';
+import { TabItemComponent } from '../tab-item/tab-item.component';
+import { TabLinkDirective } from '../tab-link/tab-link.directive';
 
 /**
  * Represents a list of tab-panels.
  */
-@Component({
-    selector: 'fd-tab-list',
-    templateUrl: './tab-list.component.html',
-    styleUrls: ['./tab-list.component.scss'],
+@Directive({
+    // tslint:disable-next-line:directive-selector
+    selector: '[fd-tab-list]',
     host: {
         role: 'tablist',
-        class: 'fd-tabs-custom'
+        class: 'fd-tabs'
     },
-    encapsulation: ViewEncapsulation.None
 })
 export class TabListComponent implements AfterContentInit, OnChanges, OnDestroy {
 
@@ -85,13 +84,13 @@ export class TabListComponent implements AfterContentInit, OnChanges, OnDestroy 
         if (this.isIndexInRange() && this.isTargetTabEnabled(tabIndex)) {
             this.tabLinks.forEach((tab, index) => tab.activateChange(index === tabIndex));
             this.selectedIndex = tabIndex;
-            console.log(tabIndex);
             this.selectedIndexChange.emit(tabIndex);
         }
     }
 
     /** @hidden */
     tabHeaderClickHandler(tabIndex: number): void {
+        console.log('click');
         if (this.selectedIndex !== tabIndex) {
             this.selectTab(tabIndex);
         }
@@ -142,7 +141,7 @@ export class TabListComponent implements AfterContentInit, OnChanges, OnDestroy 
             this.tabHeaderClickHandler(index))
         );
         this._tabsKeyPressSubscription = this.tabLinks.map((tab, index) => tab.tabLink.keyPressed.subscribe((event) =>
-            this.tabHeaderKeyHandler(event, index))
+            this.tabHeaderKeyHandler(index, event))
         );
     }
 
@@ -171,7 +170,7 @@ export class TabListComponent implements AfterContentInit, OnChanges, OnDestroy 
         });
     }
 
-    private getTabLinkFromIndex(index: number): HTMLElement {
-        return this.tabLinks.toArray()[index].nativeElement as HTMLElement;
+    private getTabLinkFromIndex(index: number): TabLinkDirective {
+        return this.tabLinks.toArray()[index].tabLink;
     }
 }
