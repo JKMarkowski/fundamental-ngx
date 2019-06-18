@@ -2,7 +2,6 @@ import {
     AfterContentInit,
     Component,
     ContentChildren,
-    ElementRef,
     EventEmitter,
     Input,
     OnChanges,
@@ -10,7 +9,6 @@ import {
     Output,
     QueryList,
     SimpleChanges,
-    ViewChildren,
     ViewEncapsulation
 } from '@angular/core';
 import { Subscription } from 'rxjs';
@@ -24,20 +22,15 @@ import { TabItemComponent } from './tab-item/tab-item.component';
     templateUrl: './tab-list.component.html',
     styleUrls: ['./tab-list.component.scss'],
     host: {
-        class: 'fd-tabs',
-        role: 'tablist'
+        role: 'tablist',
+        class: 'fd-tabs-custom'
     },
     encapsulation: ViewEncapsulation.None
 })
 export class TabListComponent implements AfterContentInit, OnChanges, OnDestroy {
 
     /** @hidden */
-    @ContentChildren(TabItemComponent)
-    tabs: QueryList<TabItemComponent>;
-    actualContent;
-
-    /** @hidden */
-    @ViewChildren('tabLink') tabLinks: QueryList<ElementRef>;
+    @ContentChildren(TabItemComponent) tabLinks: QueryList<TabItemComponent>;
 
     /** Index of the selected tab panel. */
     @Input()
@@ -49,6 +42,7 @@ export class TabListComponent implements AfterContentInit, OnChanges, OnDestroy 
 
     private _tabsSubscription: Subscription;
     private _tabsClickSubscription: Subscription[];
+    private _tabsKeyPressSubscription: Subscription[];
 
     /** @hidden */
     ngAfterContentInit(): void {
@@ -56,20 +50,22 @@ export class TabListComponent implements AfterContentInit, OnChanges, OnDestroy 
             this.selectTab(this.selectedIndex);
         });
 
-        this._tabsSubscription = this.tabs.changes.subscribe(() => {
+        this.refreshSubscriptions();
+        this._tabsSubscription = this.tabLinks.changes.subscribe(() => {
             if (!this.isIndexInRange() || this.isTabContentEmpty()) {
                 this.resetTabHook();
             }
-
-            this.actualContent = this.tabs.find(tab => tab.expanded) && this.tabs.find(tab => tab.expanded).content;
+            this.refreshSubscriptions();
         });
-
-        this._tabsClickSubscription = this.tabs.map((tab, index) => tab.tabLink.clicked.subscribe(() => this.tabHeaderClickHandler(index)));
     }
+
+
 
     /** @hidden */
     ngOnDestroy(): void {
         this._tabsSubscription.unsubscribe();
+        this._tabsClickSubscription.forEach(tab => tab.unsubscribe());
+        this._tabsKeyPressSubscription.forEach(tab => tab.unsubscribe());
     }
 
     /** @hidden */
@@ -87,10 +83,9 @@ export class TabListComponent implements AfterContentInit, OnChanges, OnDestroy 
      */
     selectTab(tabIndex: number): void {
         if (this.isIndexInRange() && this.isTargetTabEnabled(tabIndex)) {
-            this.tabs.forEach((tab, index) => {
-                tab.activateChange(index === tabIndex);
-            });
+            this.tabLinks.forEach((tab, index) => tab.activateChange(index === tabIndex));
             this.selectedIndex = tabIndex;
+            console.log(tabIndex);
             this.selectedIndexChange.emit(tabIndex);
         }
     }
@@ -104,6 +99,7 @@ export class TabListComponent implements AfterContentInit, OnChanges, OnDestroy 
 
     /** @hidden */
     tabHeaderKeyHandler(index: number, event: any): void {
+        console.log(event);
         switch (event.code) {
             case ('ArrowLeft'): {
                 if (index - 1 >= 0) {
@@ -136,17 +132,31 @@ export class TabListComponent implements AfterContentInit, OnChanges, OnDestroy 
         }
     }
 
+    /** @hidden
+     *  When There are some changes at amount of tabs there is a need to reset subscription
+     * */
+    private refreshSubscriptions() {
+        this._tabsClickSubscription && this._tabsClickSubscription.forEach(tab => tab.unsubscribe());
+        this._tabsKeyPressSubscription && this._tabsKeyPressSubscription.forEach(tab => tab.unsubscribe());
+        this._tabsClickSubscription = this.tabLinks.map((tab, index) => tab.tabLink.clicked.subscribe(() =>
+            this.tabHeaderClickHandler(index))
+        );
+        this._tabsKeyPressSubscription = this.tabLinks.map((tab, index) => tab.tabLink.keyPressed.subscribe((event) =>
+            this.tabHeaderKeyHandler(event, index))
+        );
+    }
+
     private isIndexInRange(): boolean {
-        return this.tabs && this.tabs.length > 0 && this.selectedIndex < this.tabs.length;
+        return this.tabLinks && this.tabLinks.length > 0 && this.selectedIndex < this.tabLinks.length;
     }
 
     private isTargetTabEnabled(index: number): boolean {
-        return !this.tabs.toArray()[index].disabled;
+        return !this.tabLinks.toArray()[index].disabled;
     }
 
     private isTabContentEmpty(): boolean {
         let result = true;
-        this.tabs.forEach(tab => {
+        this.tabLinks.forEach(tab => {
             if (tab.expanded) {
                 result = false;
             }

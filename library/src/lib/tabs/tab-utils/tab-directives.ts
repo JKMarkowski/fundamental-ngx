@@ -16,9 +16,9 @@ import { Directive, EmbeddedViewRef, Input, OnInit, TemplateRef, ViewContainerRe
 @Directive({
     // TODO to be discussed
     // tslint:disable-next-line:directive-selector
-    selector: '[fd-tab-title]'
+    selector: '[fd-tab-content]'
 })
-export class TabTitleDirective {
+export class TabContentDirective {
 }
 
 /**
@@ -30,15 +30,17 @@ export class TabTitleDirective {
     selector: '[fd-tab-load-title]'
 })
 export class TabLoadTitleDirective implements OnInit {
-    @Input('fd-tab-load-title')
-    content: TemplateRef<any>;
+    @Input('fd-tab-load-title') content: TemplateRef<any>;
 
     private contentRef: EmbeddedViewRef<any>;
 
     constructor(private viewRef: ViewContainerRef) {}
 
     ngOnInit(): void {
-        this.viewRef.clear();
-        this.contentRef = this.viewRef.createEmbeddedView(this.content);
+        setTimeout(() => {
+            this.viewRef.clear();
+            console.log(this.viewRef);
+            this.contentRef = this.viewRef.createEmbeddedView(this.content);
+        }, 100)
     }
 }

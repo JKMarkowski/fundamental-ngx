@@ -1,28 +1,10 @@
-<!--<ul class="fd-tabs"-->
-<!--    role="tablist">-->
-<!--    <li class="fd-tabs__item"-->
-<!--        *ngFor="let tab of tabs.toArray(); let i = index;">-->
-<!--        <a #tabLink-->
-<!--           role="tab"-->
-<!--           class="fd-tabs__link"-->
-<!--           [attr.tabindex]="tab.disabled ? -1 : 0"-->
-<!--           [attr.aria-controls]="tab.id"-->
-<!--           [attr.aria-disabled]="tab.disabled"-->
-<!--           [attr.aria-selected]="tab.expanded ? true : null"-->
-<!--           [attr.aria-label]="tab.ariaLabel || null"-->
-<!--           [attr.aria-labelledby]="(!tab.ariaLabel && tab.ariaLabelledBy) ? tab.ariaLabelledBy : null"-->
-<!--           [class.is-selected]="tab.expanded"-->
-<!--           (keydown)="tabHeaderKeyHandler(i, $event)"-->
-<!--           (click)="tabHeaderClickHandler(i)">-->
-
-<!--            <ng-container *ngIf="tab.titleTemplate">-->
-<!--                <ng-container [fd-tab-load-title]="tab.titleTemplate"></ng-container>-->
-<!--            </ng-container>-->
-<!--            <ng-container *ngIf="!tab.titleTemplate">{{ tab.title }}</ng-container>-->
-<!--        </a>-->
-<!--    </li>-->
-<!--</ul>-->
-<!--<ng-content select="fd-tab"></ng-content>-->
-<!--<ng-content></ng-content>-->
-<ng-content select="fd-tab-item"></ng-content>
-<ng-container></ng-container>
+<div class="fd-tabs">
+    <ng-content select="[fd-tab-item]"></ng-content>
+</div>
+<ng-container *ngFor="let tab of tabLinks; index as index">
+    <fd-tab>
+        <ng-container *ngIf="tab.tabContent && index === selectedIndex">
+            <ng-container [fd-tab-load-title]="tab.tabContent"></ng-container>
+        </ng-container>
+    </fd-tab>
+</ng-container>

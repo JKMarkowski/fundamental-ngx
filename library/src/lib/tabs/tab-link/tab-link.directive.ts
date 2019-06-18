@@ -31,15 +31,21 @@ export class TabLinkDirective extends AbstractFdNgxClass {
     @Input()
     active: boolean;
 
+    @Output() clicked = new EventEmitter();
+    @Output() keyPressed = new EventEmitter<any>();
+
     @HostListener('click')
     clickLink() {
         this.clicked.emit();
     }
 
+    @HostListener('keypress')
+    keyPressLink(event: any) {
+        this.keyPressed.emit(event);
+    }
+
     @HostBinding('attr.aria-selected') selected: boolean = this.active;
     @HostBinding('attr.tabindex') tabIndex: number = this.disabled ? -1 : 0;
-
-    @Output() clicked = new EventEmitter();
 
     constructor(private elementRef: ElementRef) {
         super(elementRef);
@@ -55,6 +61,9 @@ export class TabLinkDirective extends AbstractFdNgxClass {
         this._addClassToElement('fd-tabs__link');
         if (this.active) {
             this._addClassToElement('is-selected');
+        }
+        if (this.disabled) {
+            this._addClassToElement('is-disabled');
         }
     }
 }

@@ -1,5 +1,5 @@
 import { Component, ContentChild, Input, TemplateRef, ViewEncapsulation } from '@angular/core';
-import { TabTitleDirective } from '../tab-utils/tab-directives';
+import { TabItemComponent } from '../tab-item/tab-item.component';
 
 let tabPanelUniqueId: number = 0;
 
@@ -20,6 +20,8 @@ let tabPanelUniqueId: number = 0;
 })
 export class TabPanelComponent {
 
+    /** @hidden */
+    @ContentChild(TabItemComponent, {read: TemplateRef}) titleTemplate: TemplateRef<any>;
     /** Aria-label of the tab. Also applied to the tab header. */
     @Input()
     ariaLabel: string;
