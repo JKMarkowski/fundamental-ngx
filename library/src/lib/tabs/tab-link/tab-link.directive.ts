@@ -18,7 +18,13 @@ export class TabLinkDirective extends AbstractFdNgxClass {
     /** Whether the tab is disabled. */
     active: boolean;
 
+    @HostBinding('attr.aria-selected') selected: boolean = this.active;
+    @HostBinding('attr.tabindex') tabIndex: number = this.disabled ? -1 : 0;
+    @HostBinding('attr.aria-disabled') ariaDisabled = this.disabled;
+    @HostBinding('attr.aria-controls') ariaControls;
+
     @Output() clicked = new EventEmitter();
+
     @Output() keyPressed = new EventEmitter<any>();
 
     @HostListener('click')
@@ -32,23 +38,20 @@ export class TabLinkDirective extends AbstractFdNgxClass {
     }
 
     public focus() {
-        this.elementRef && this.elementRef.nativeElement.focus();
+        this.elementRef.nativeElement.focus();
     }
-
-    @HostBinding('attr.aria-selected') selected: boolean = this.active;
-    @HostBinding('attr.tabindex') tabIndex: number = this.disabled ? -1 : 0;
-    @HostBinding('attr.aria-disabled') ariaDisabled = this.disabled;
-    @HostBinding('attr.aria-controls') ariaControls;
 
     constructor(private elementRef: ElementRef) {
         super(elementRef);
     }
 
+    /** Function that is called every time disabled active is changed */
     activateChange(isActive: boolean) {
         this.active = isActive;
         this.ngOnChanges();
     }
 
+    /** Function that is called every time disabled flas is changed */
     disabledChange(disabled: boolean) {
         this.disabled = disabled;
         this.ngOnChanges();

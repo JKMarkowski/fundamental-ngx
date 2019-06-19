@@ -51,7 +51,9 @@ export class TabComponent extends AbstractFdNgxClass implements AfterContentInit
     }
 
     public ngOnDestroy(): void {
-        this.selectedIndexChangeSubscription && this.selectedIndexChangeSubscription.unsubscribe();
+        if (this.selectedIndexChangeSubscription) {
+            this.selectedIndexChangeSubscription.unsubscribe();
+        }
     }
 
     _setProperties() {
@@ -59,6 +61,8 @@ export class TabComponent extends AbstractFdNgxClass implements AfterContentInit
     }
 
     public selectTab(index: number) {
-        this.tabListComponent && this.tabListComponent.selectTab(index);
+        if (this.tabListComponent) {
+            this.tabListComponent.selectTab(index);
+        }
     }
 }

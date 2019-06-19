@@ -12,9 +12,10 @@ let tabItemUniqueId: number = 0;
 
 @Directive({
     // TODO to be discussed
+    // tslint:disable-next-line:directive-selector
     selector: '[fd-tab-item]',
 })
-export class TabItemComponent extends AbstractFdNgxClass implements AfterContentInit {
+export class TabItemDirective extends AbstractFdNgxClass implements AfterContentInit {
 
     @ContentChild(TabLinkDirective) tabLink: TabLinkDirective;
 

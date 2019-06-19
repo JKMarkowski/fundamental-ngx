@@ -1,5 +1,5 @@
 import { Component, ContentChild, Input, TemplateRef, ViewEncapsulation } from '@angular/core';
-import { TabItemComponent } from '../tab-item/tab-item.component';
+import { TabItemDirective } from '../tab-item/tab-item.directive';
 
 /**
  * Represents the body of a tab element. It also contains elements pertaining to the associated tab header.

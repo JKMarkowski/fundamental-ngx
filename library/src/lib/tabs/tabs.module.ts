@@ -6,7 +6,7 @@ import { TabListComponent } from './tab-list/tab-list.component';
 
 import { TabContentDirective, TabLoadContentDirective } from './tab-utils/tab-directives';
 import { TabLinkDirective } from './tab-link/tab-link.directive';
-import { TabItemComponent } from './tab-item/tab-item.component';
+import { TabItemDirective } from './tab-item/tab-item.directive';
 import { TabNavDirective } from './tab-nav/tab-nav.directive';
 import { TabComponent } from './tab.component';
 
@@ -16,7 +16,7 @@ import { TabComponent } from './tab.component';
         TabPanelComponent,
         TabLoadContentDirective,
         TabLinkDirective,
-        TabItemComponent,
+        TabItemDirective,
         TabNavDirective,
         TabContentDirective,
         TabComponent
@@ -29,7 +29,7 @@ import { TabComponent } from './tab.component';
         TabPanelComponent,
         TabLoadContentDirective,
         TabLinkDirective,
-        TabItemComponent,
+        TabItemDirective,
         TabNavDirective,
         TabContentDirective,
         TabComponent

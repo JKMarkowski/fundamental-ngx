@@ -10,7 +10,7 @@ import {
     SimpleChanges,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { TabItemComponent } from '../tab-item/tab-item.component';
+import { TabItemDirective } from '../tab-item/tab-item.directive';
 
 /**
  * Represents a list of tab-panels.
@@ -26,7 +26,7 @@ import { TabItemComponent } from '../tab-item/tab-item.component';
 export class TabListComponent implements AfterContentInit, OnChanges, OnDestroy {
 
     /** @hidden */
-    @ContentChildren(TabItemComponent) tabItems: QueryList<TabItemComponent>;
+    @ContentChildren(TabItemDirective) tabItems: QueryList<TabItemDirective>;
 
     /** Index of the selected tab panel. */
     @Input()
@@ -40,10 +40,10 @@ export class TabListComponent implements AfterContentInit, OnChanges, OnDestroy 
     private _tabsSubscription: Subscription;
 
     /** @hidden */
-    private _tabsClickSubscription: Subscription[];
+    private _tabsClickSubscription: Subscription[] = [];
 
     /** @hidden */
-    private _tabsKeyPressSubscription: Subscription[];
+    private _tabsKeyPressSubscription: Subscription[] = [];
 
     /** @hidden */
     ngAfterContentInit(): void {
@@ -146,8 +146,8 @@ export class TabListComponent implements AfterContentInit, OnChanges, OnDestroy 
      *  When There are some changes at amount of tabs there is a need to reset subscription
      * */
     private refreshSubscriptions() {
-        this._tabsClickSubscription && this._tabsClickSubscription.forEach(tab => tab.unsubscribe());
-        this._tabsKeyPressSubscription && this._tabsKeyPressSubscription.forEach(tab => tab.unsubscribe());
+        this._tabsClickSubscription.forEach(tab => tab.unsubscribe());
+        this._tabsKeyPressSubscription.forEach(tab => tab.unsubscribe());
         this._tabsClickSubscription = this.tabItems.map((tab, index) => tab.tabLink && tab.tabLink.clicked.subscribe(() =>
             this.tabHeaderClickHandler(index))
         );
@@ -161,7 +161,7 @@ export class TabListComponent implements AfterContentInit, OnChanges, OnDestroy 
     }
 
     private isListEmpty() {
-        return this.tabItems && this.tabItems.length == 0;
+        return this.tabItems && this.tabItems.length === 0;
     }
 
     private isTargetTabEnabled(index: number): boolean {
@@ -185,7 +185,7 @@ export class TabListComponent implements AfterContentInit, OnChanges, OnDestroy 
         });
     }
 
-    private getTabLinkFromIndex(index: number): TabItemComponent {
+    private getTabLinkFromIndex(index: number): TabItemDirective {
         return this.tabItems.toArray()[index];
     }
 }
