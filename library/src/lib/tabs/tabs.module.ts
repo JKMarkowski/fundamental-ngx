@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { TabPanelComponent } from './tab-panel/tab-panel.component';
 import { TabListComponent } from './tab-list/tab-list.component';
 
-import { TabContentDirective, TabLoadTitleDirective } from './tab-utils/tab-directives';
+import { TabContentDirective, TabLoadContentDirective } from './tab-utils/tab-directives';
 import { TabLinkDirective } from './tab-link/tab-link.directive';
 import { TabItemComponent } from './tab-item/tab-item.component';
 import { TabNavDirective } from './tab-nav/tab-nav.directive';
@@ -14,7 +14,7 @@ import { TabComponent } from './tab.component';
     declarations: [
         TabListComponent,
         TabPanelComponent,
-        TabLoadTitleDirective,
+        TabLoadContentDirective,
         TabLinkDirective,
         TabItemComponent,
         TabNavDirective,

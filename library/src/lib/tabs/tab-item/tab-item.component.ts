@@ -1,19 +1,18 @@
 import {
     AfterContentInit,
     ContentChild, Directive, ElementRef,
-    EventEmitter,
+    EventEmitter, Input,
     Output, TemplateRef
 } from '@angular/core';
 import { TabLinkDirective } from '../tab-link/tab-link.directive';
 import { AbstractFdNgxClass } from '../../utils/abstract-fd-ngx-class';
 import { TabContentDirective } from '../tab-utils/tab-directives';
 
+let tabItemUniqueId: number = 0;
+
 @Directive({
     // TODO to be discussed
     selector: '[fd-tab-item]',
-    host: {
-        class: 'fd-tabs__item'
-    }
 })
 export class TabItemComponent extends AbstractFdNgxClass implements AfterContentInit {
 
@@ -21,11 +20,25 @@ export class TabItemComponent extends AbstractFdNgxClass implements AfterContent
 
     @ContentChild(TabContentDirective, {read: TemplateRef}) tabContent: TemplateRef<TabContentDirective>;
 
+    /** Aria-label of the tab. Also applied to the tab header. */
+    @Input()
+    ariaLabel: string;
+
+    /** Id of the element that labels the tab. Also applied to the tab header. */
+    @Input()
+    ariaLabelledBy: string;
+
     /** Whether the tab is disabled. */
+    @Input()
     disabled: boolean;
 
     /** Whether the tab is disabled. */
-    expanded: boolean;
+    @Input()
+    active: boolean;
+
+    /** Id of the tab. If none is provided, one will be generated. */
+    @Input()
+    id: string = 'fd-tab-item' + tabItemUniqueId++;
 
     @Output() clicked = new EventEmitter();
 
@@ -34,18 +47,33 @@ export class TabItemComponent extends AbstractFdNgxClass implements AfterContent
     }
 
     ngAfterContentInit(): void {
-        this.tabLink.activateChange(this.expanded);
-        this.tabLink.ngOnChanges();
+        this.disabledChange(this.disabled);
+        this.activateChange(this.active);
     }
 
     public activateChange(isActive: boolean) {
-        this.expanded = isActive;
-        this.tabLink.activateChange(isActive)
+        this.active = isActive;
+        if (this.tabLink) {
+            this.tabLink.activateChange(isActive);
+        }
+    }
+
+    public disabledChange(disabled: boolean) {
+        this.disabled = disabled;
+        if (this.tabLink) {
+            this.tabLink.disabledChange(disabled)
+        }
+    }
+
+    public focus() {
+        if (this.tabLink) {
+            this.tabLink.focus();
+        }
     }
 
     _setProperties(): void {
-        if (this.tabLink) {
-            this.activateChange(this.expanded);
-        }
+        this._addClassToElement('fd-tabs__item');
+        this.activateChange(this.active);
+        this.disabledChange(this.disabled);
     }
 }

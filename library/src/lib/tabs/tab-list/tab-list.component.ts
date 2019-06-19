@@ -58,8 +58,6 @@ export class TabListComponent implements AfterContentInit, OnChanges, OnDestroy 
         });
     }
 
-
-
     /** @hidden */
     ngOnDestroy(): void {
         this._tabsSubscription.unsubscribe();
@@ -90,7 +88,6 @@ export class TabListComponent implements AfterContentInit, OnChanges, OnDestroy 
 
     /** @hidden */
     tabHeaderClickHandler(tabIndex: number): void {
-        console.log('click');
         if (this.selectedIndex !== tabIndex) {
             this.selectTab(tabIndex);
         }
@@ -98,7 +95,6 @@ export class TabListComponent implements AfterContentInit, OnChanges, OnDestroy 
 
     /** @hidden */
     tabHeaderKeyHandler(index: number, event: any): void {
-        console.log(event);
         switch (event.code) {
             case ('ArrowLeft'): {
                 if (index - 1 >= 0) {
@@ -156,7 +152,7 @@ export class TabListComponent implements AfterContentInit, OnChanges, OnDestroy 
     private isTabContentEmpty(): boolean {
         let result = true;
         this.tabLinks.forEach(tab => {
-            if (tab.expanded) {
+            if (tab.active) {
                 result = false;
             }
         });

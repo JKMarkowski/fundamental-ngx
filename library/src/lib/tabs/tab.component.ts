@@ -1,11 +1,11 @@
 import {
     AfterContentInit,
-    Component, ContentChild,
-    OnChanges,
-    OnDestroy,
+    Component, ContentChild, ElementRef, EventEmitter, Inject, Input, OnDestroy, Output,
     ViewEncapsulation
 } from '@angular/core';
 import { TabListComponent } from './tab-list/tab-list.component';
+import { AbstractFdNgxClass } from '../utils/abstract-fd-ngx-class';
+import { Subscription } from 'rxjs';
 
 /**
  * Represents a list of tab-panels.
@@ -20,14 +20,43 @@ import { TabListComponent } from './tab-list/tab-list.component';
     encapsulation: ViewEncapsulation.None,
     styleUrls: ['tab.component.scss']
 })
-export class TabComponent implements AfterContentInit {
+export class TabComponent extends AbstractFdNgxClass implements AfterContentInit, OnDestroy {
 
     /** @hidden */
     @ContentChild(TabListComponent) tabListComponent: TabListComponent;
 
+    /** Index of the selected tab panel. */
+    @Input() selectedIndex: number = 0;
 
+    /** Event emitted when the selected panel changes. */
+    @Output() selectedIndexChange = new EventEmitter<number>();
 
-    ngAfterContentInit(): void {
+    /** @hidden */
+    selectedIndexChangeSubscription: Subscription;
 
+    /** @hidden */
+    constructor(@Inject(ElementRef) elementRef: ElementRef) {
+        super(elementRef);
+    }
+
+    public ngAfterContentInit(): void {
+        this.selectTab(this.selectedIndex)
+        if (this.tabListComponent) {
+            this.selectedIndexChangeSubscription = this.tabListComponent.selectedIndexChange.subscribe(index =>
+                this.selectedIndexChange.emit(index)
+            );
+        }
+    }
+
+    public ngOnDestroy(): void {
+        this.selectedIndexChangeSubscription && this.selectedIndexChangeSubscription.unsubscribe();
+    }
+
+    _setProperties() {
+        this.selectTab(this.selectedIndex)
+    }
+
+    public selectTab(index: number) {
+        this.tabListComponent && this.tabListComponent.selectTab(index);
     }
 }

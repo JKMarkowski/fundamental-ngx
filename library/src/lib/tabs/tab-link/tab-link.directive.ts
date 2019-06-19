@@ -11,24 +11,11 @@ import { AbstractFdNgxClass } from '../../utils/abstract-fd-ngx-class';
     }
 })
 export class TabLinkDirective extends AbstractFdNgxClass {
-    /** The title of the tab header. */
-    @Input()
-    title: string;
-
-    /** Aria-label of the tab. Also applied to the tab header. */
-    @Input()
-    ariaLabel: string;
-
-    /** Id of the element that labels the tab. Also applied to the tab header. */
-    @Input()
-    ariaLabelledBy: string;
 
     /** Whether the tab is disabled. */
-    @Input()
     disabled: boolean;
 
     /** Whether the tab is disabled. */
-    @Input()
     active: boolean;
 
     @Output() clicked = new EventEmitter();
@@ -50,6 +37,9 @@ export class TabLinkDirective extends AbstractFdNgxClass {
 
     @HostBinding('attr.aria-selected') selected: boolean = this.active;
     @HostBinding('attr.tabindex') tabIndex: number = this.disabled ? -1 : 0;
+    @HostBinding('attr.aria-disabled') ariaDisabled = this.disabled;
+    @HostBinding('attr.aria-controls') ariaControls;
+    @HostBinding('id') id;
 
     constructor(private elementRef: ElementRef) {
         super(elementRef);
@@ -57,6 +47,11 @@ export class TabLinkDirective extends AbstractFdNgxClass {
 
     activateChange(isActive: boolean) {
         this.active = isActive;
+        this.ngOnChanges();
+    }
+
+    disabledChange(disabled: boolean) {
+        this.disabled = disabled;
         this.ngOnChanges();
     }
 

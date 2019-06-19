@@ -1,8 +1,6 @@
 import { Component, ContentChild, Input, TemplateRef, ViewEncapsulation } from '@angular/core';
 import { TabItemComponent } from '../tab-item/tab-item.component';
 
-let tabPanelUniqueId: number = 0;
-
 /**
  * Represents the body of a tab element. It also contains elements pertaining to the associated tab header.
  */
@@ -20,8 +18,6 @@ let tabPanelUniqueId: number = 0;
 })
 export class TabPanelComponent {
 
-    /** @hidden */
-    @ContentChild(TabItemComponent, {read: TemplateRef}) titleTemplate: TemplateRef<any>;
     /** Aria-label of the tab. Also applied to the tab header. */
     @Input()
     ariaLabel: string;
@@ -30,13 +26,9 @@ export class TabPanelComponent {
     @Input()
     ariaLabelledBy: string;
 
-    /** Whether the tab is disabled. */
+    /** Id of the tab*/
     @Input()
-    disabled: boolean;
-
-    /** Id of the tab. If none is provided, one will be generated. */
-    @Input()
-    id: string = 'fd-tab-panel' + tabPanelUniqueId++;
+    id: string;
 
     /** @hidden */
     expanded = false;

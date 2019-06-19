@@ -18,8 +18,7 @@ import { Directive, EmbeddedViewRef, Input, OnInit, TemplateRef, ViewContainerRe
     // tslint:disable-next-line:directive-selector
     selector: '[fd-tab-content]'
 })
-export class TabContentDirective {
-}
+export class TabContentDirective {}
 
 /**
  * Not for external use. Portal to render the complex title template.
@@ -27,20 +26,17 @@ export class TabContentDirective {
 @Directive({
     // TODO to be discussed
     // tslint:disable-next-line:directive-selector
-    selector: '[fd-tab-load-title]'
+    selector: '[fd-tab-load-content]'
 })
-export class TabLoadTitleDirective implements OnInit {
-    @Input('fd-tab-load-title') content: TemplateRef<any>;
+export class TabLoadContentDirective implements OnInit {
+    @Input('fd-tab-load-content') content: TemplateRef<any>;
 
     private contentRef: EmbeddedViewRef<any>;
 
     constructor(private viewRef: ViewContainerRef) {}
 
     ngOnInit(): void {
-        setTimeout(() => {
-            this.viewRef.clear();
-            console.log(this.viewRef);
-            this.contentRef = this.viewRef.createEmbeddedView(this.content);
-        }, 100)
+        this.viewRef.clear();
+        this.contentRef = this.viewRef.createEmbeddedView(this.content);
     }
 }
