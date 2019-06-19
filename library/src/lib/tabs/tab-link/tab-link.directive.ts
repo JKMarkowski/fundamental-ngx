@@ -39,7 +39,6 @@ export class TabLinkDirective extends AbstractFdNgxClass {
     @HostBinding('attr.tabindex') tabIndex: number = this.disabled ? -1 : 0;
     @HostBinding('attr.aria-disabled') ariaDisabled = this.disabled;
     @HostBinding('attr.aria-controls') ariaControls;
-    @HostBinding('id') id;
 
     constructor(private elementRef: ElementRef) {
         super(elementRef);
@@ -58,6 +57,7 @@ export class TabLinkDirective extends AbstractFdNgxClass {
     /** @hidden */
     _setProperties() {
         this._addClassToElement('fd-tabs__link');
+
         if (this.active) {
             this._addClassToElement('is-selected');
         }

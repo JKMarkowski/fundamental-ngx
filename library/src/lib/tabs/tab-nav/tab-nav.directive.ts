@@ -9,6 +9,4 @@ import { Directive } from '@angular/core';
         role: 'tablist'
     }
 })
-export class TabNavDirective {
-
-}
+export class TabNavDirective {}

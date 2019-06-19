@@ -27,6 +27,7 @@ import { TabComponent } from './tab.component';
     exports: [
         TabListComponent,
         TabPanelComponent,
+        TabLoadContentDirective,
         TabLinkDirective,
         TabItemComponent,
         TabNavDirective,

@@ -4,9 +4,7 @@ import { Component } from '@angular/core';
     selector: 'fd-tabs-example',
     templateUrl: './tabs-example.component.html'
 })
-export class TabsExampleComponent {
-    selectedTab = 0;
-}
+export class TabsExampleComponent {}
 
 @Component({
     selector: 'fd-tab-selection-example',
@@ -18,5 +16,5 @@ export class TabsExampleComponent {
     `]
 })
 export class TabSelectionExampleComponent {
-    selectedTab = 0;
+    selectedTab = 1;
 }

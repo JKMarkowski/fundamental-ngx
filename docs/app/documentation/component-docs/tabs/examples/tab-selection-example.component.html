@@ -6,7 +6,7 @@
                 Content Link1
             </ng-template>
         </div>
-        <div fd-tab-item [active]="true">
+        <div fd-tab-item>
             <a fd-tab-link>link2</a>
             <ng-template fd-tab-content>
                 Content Link2
@@ -22,13 +22,13 @@
 </fd-tab>
 <br/>
 
-First method, requires maintaining a flag
+<!--First method, requires maintaining a flag-->
 <button fd-button
         (click)="selectedTab = 0">
     Select Tab 1
 </button>
 
- Second method, does not require a flag
+<!-- Second method, does not require a flag-->
 <button fd-button
         (click)="tabList.selectTab(1)">
     Select Tab 2

@@ -49,19 +49,22 @@ export class TabItemComponent extends AbstractFdNgxClass implements AfterContent
     ngAfterContentInit(): void {
         this.disabledChange(this.disabled);
         this.activateChange(this.active);
+        if (this.tabLink) {
+            this.tabLink.ariaControls = this.id;
+        }
     }
 
     public activateChange(isActive: boolean) {
         this.active = isActive;
         if (this.tabLink) {
-            this.tabLink.activateChange(isActive);
+            this.tabLink.activateChange(!!isActive);
         }
     }
 
     public disabledChange(disabled: boolean) {
         this.disabled = disabled;
         if (this.tabLink) {
-            this.tabLink.disabledChange(disabled)
+            this.tabLink.disabledChange(!!disabled)
         }
     }
 

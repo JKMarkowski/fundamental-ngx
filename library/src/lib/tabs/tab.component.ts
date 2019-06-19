@@ -40,7 +40,9 @@ export class TabComponent extends AbstractFdNgxClass implements AfterContentInit
     }
 
     public ngAfterContentInit(): void {
-        this.selectTab(this.selectedIndex)
+        if (!this.tabListComponent.getActiveTabItemIndex()) {
+            this.selectTab(this.selectedIndex);
+        }
         if (this.tabListComponent) {
             this.selectedIndexChangeSubscription = this.tabListComponent.selectedIndexChange.subscribe(index =>
                 this.selectedIndexChange.emit(index)

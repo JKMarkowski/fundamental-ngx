@@ -1,5 +1,5 @@
 <ng-content select="[fd-tab-list]"></ng-content>
-<ng-container *ngFor="let tab of tabListComponent?.tabLinks; index as index">
+<ng-container *ngFor="let tab of tabListComponent?.tabItems; index as index">
     <fd-tab-panel
         [ariaLabel]="tab.ariaLabel"
         [ariaLabelledBy]="tab.ariaLabelledBy"

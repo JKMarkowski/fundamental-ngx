@@ -1,13 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component } from '@angular/core';
-
-import { TabListComponent } from './tab-list.component';
-import { TabsModule } from '../tabs.module';
+import { TabComponent } from './tab.component';
+import { TabsModule } from './tabs.module';
 
 @Component({
     selector: 'fd-test-tabs',
     template: `
-        <fd-tab>
+        <fd-tab [(selectedIndex)]="index">
             <nav fd-tab-list>
                 <div fd-tab-item id="tab1">
                     <a fd-tab-link>link1</a>
@@ -31,10 +30,12 @@ import { TabsModule } from '../tabs.module';
         </fd-tab>
     `
 })
-class TestWrapperComponent {}
+class TestWrapperComponent {
+    index = 0;
+}
 
 describe('TabListComponent', () => {
-    let component: TabListComponent;
+    let component: TabComponent;
     let fixture: ComponentFixture<TestWrapperComponent>;
 
     beforeEach(async(() => {
@@ -46,35 +47,11 @@ describe('TabListComponent', () => {
 
     beforeEach(() => {
         fixture = TestBed.createComponent(TestWrapperComponent);
-        component = fixture.debugElement.children[0].componentInstance.tabListComponent;
+        component = fixture.debugElement.children[0].componentInstance;
         fixture.detectChanges();
     });
 
     it('should create', () => {
         expect(component).toBeTruthy();
-    });
-
-    it('should handle ngAfterContentInit', () => {
-        component.ngAfterContentInit();
-        expect(component.selectedIndex).toBe(1);
-        expect(component.tabItems.length).toBe(3);
-    });
-
-    it('should handle tab select', () => {
-        component.ngAfterContentInit();
-        component.selectedIndexChange.subscribe(id => expect(id).toBe(1));
-        component.selectTab(1);
-    });
-
-    it('should not select disabled tabs', () => {
-        component.ngAfterContentInit();
-        component.selectedIndexChange.subscribe(id => expect(id).toBe(  0));
-        component.selectTab(2);
-    });
-
-    it('should select first tab if selected tab does not exist', () => {
-        component.ngAfterContentInit();
-        component.selectTab(10);
-        expect(component.getActiveTabItemIndex()).toBe(1);
     });
 });
