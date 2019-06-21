@@ -36,7 +36,10 @@ export const API_FILES = {
     ],
     buttonGroup: [
         'ButtonGroupComponent',
-        'ButtonGroupedDirective'
+        'ButtonGroupedDirective',
+    ],
+    buttonSplit: [
+        'ButtonSplitComponent'
     ],
     calendar: [
         'CalendarComponent',

@@ -85,7 +85,7 @@ import {
 import {
     ButtonIconsExampleComponent,
     ButtonOptionsExampleComponent,
-    ButtonSizesExampleComponent,
+    ButtonSizesExampleComponent, ButtonSplitExampleComponent,
     ButtonStateExampleComponent,
     ButtonTypesExampleComponent
 } from './component-docs/button/examples/button-examples.component';
@@ -324,6 +324,14 @@ import { DatePickerPositionExampleComponent } from './component-docs/date-picker
 import { TimePickerOtherDelimiterExampleComponent } from './component-docs/time-picker/examples/time-picker-other-delimiter-example.component';
 import { DatetimeFormatExampleComponent } from './component-docs/datetime-picker/examples/datetime-format-example/datetime-format-example.component';
 import { HighlightModule } from 'ngx-highlightjs';
+import { ButtonSplitHeaderComponent } from './component-docs/button-split/button-split-header/button-split-header.component';
+import {
+    ButtonSplitOptionsExampleComponent,
+    ButtonSplitProgrammaticalExampleComponent,
+    ButtonSplitTypesExampleComponent,
+    ButtonSplitTypesIconsComponent
+} from './component-docs/button-split/examples/button-split-examples.component';
+import { ButtonSplitDocsComponent } from './component-docs/button-split/button-split-docs.component';
 
 @NgModule({
     declarations: [
@@ -340,6 +348,7 @@ import { HighlightModule } from 'ngx-highlightjs';
         BreadcrumbDocsComponent,
         ButtonDocsComponent,
         ButtonGroupDocsComponent,
+        ButtonSplitDocsComponent,
         DropdownDocsComponent,
         DatetimePickerDocsComponent,
         FileInputDocsComponent,
@@ -393,8 +402,12 @@ import { HighlightModule } from 'ngx-highlightjs';
         ButtonIconsExampleComponent,
         ButtonOptionsExampleComponent,
         ButtonSizesExampleComponent,
-        ButtonStateExampleComponent,
         ButtonTypesExampleComponent,
+        ButtonStateExampleComponent,
+        ButtonSplitTypesExampleComponent,
+        ButtonSplitTypesIconsComponent,
+        ButtonSplitProgrammaticalExampleComponent,
+        ButtonSplitExampleComponent,
         ButtonGroupXsExampleComponent,
         ButtonGroupSmallExampleComponent,
         ButtonGroupCompactExampleComponent,
@@ -548,6 +561,7 @@ import { HighlightModule } from 'ngx-highlightjs';
         BreadcrumbHeaderComponent,
         ButtonHeaderComponent,
         ButtonGroupHeaderComponent,
+        ButtonSplitHeaderComponent,
         CalendarHeaderComponent,
         ComboboxInputHeaderComponent,
         DatePickerHeaderComponent,
@@ -588,7 +602,8 @@ import { HighlightModule } from 'ngx-highlightjs';
         DatePickerI18nExampleComponent,
         DatePickerPositionExampleComponent,
         DatePickerFormatExampleComponent,
-        SearchPipe
+        SearchPipe,
+        ButtonSplitOptionsExampleComponent
     ],
     entryComponents: [ModalContentComponent, ModalInModalComponent, ModalInModalSecondComponent, AlertContentComponent],
     imports: [

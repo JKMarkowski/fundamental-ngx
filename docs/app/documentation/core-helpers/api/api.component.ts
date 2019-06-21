@@ -20,6 +20,7 @@ export class ApiComponent implements OnInit {
 
     ngOnInit() {
         if (this.route.snapshot.data) {
+            console.log(this.route.snapshot.data);
             this.files = this.route.snapshot.data.content;
         }
 

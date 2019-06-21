@@ -34,3 +34,11 @@ export class ButtonIconsExampleComponent {}
     styleUrls: ['./button-examples.scss']	
 })	
 export class ButtonStateExampleComponent {}
+
+@Component({
+    selector: 'fd-button-split-example',
+    templateUrl: './button-split-example.component.html',
+})
+export class ButtonSplitExampleComponent {
+    isOpen = false;
+}

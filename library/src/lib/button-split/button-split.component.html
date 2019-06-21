@@ -1,0 +1,24 @@
+<fd-popover [(isOpen)]="isOpen" [focusTrapped]="focusTrapped"
+            [closeOnEscapeKey]="closeOnEscapeKey" [closeOnOutsideClick]="closeOnOutsideClick"
+            [disabled]="disabled" [triggers]="triggers" >
+    <fd-popover-control>
+        <div class="fd-button-split">
+            <button fd-button [fdType]="fdType"[options]="options"
+                    [compact]="compact" [size]="size" [class]="class" [semantic]="semantic"
+                    (click)="buttonClick($event)" [disabled]="disabled"
+            >
+                <ng-content></ng-content>
+            </button>
+            <button fd-button
+                    [attr.aria-expanded]="disabled ? false : isOpen"
+                    [attr.aria-disabled]="disabled"
+                    aria-haspopup="true"
+                    [fdType]="fdType" [options]="options" [compact]="compact" [size]="size" [class]="class" [semantic]="semantic"
+                    [glyph]="glyph">
+            </button>
+        </div>
+    </fd-popover-control>
+    <fd-popover-body>
+        <ng-content select="[fd-button-split-menu]"></ng-content>
+    </fd-popover-body>
+</fd-popover>

@@ -42,6 +42,7 @@ export class ButtonDirective extends AbstractFdNgxClass {
         }
         if (this.glyph) {
             this._addClassToElement('sap-icon--' + this.glyph);
+            console.log(this.glyph);
         }
         if (this.fdType) {
             this._addClassToElement('fd-button--' + this.fdType);
